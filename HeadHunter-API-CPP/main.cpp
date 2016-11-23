@@ -66,7 +66,6 @@ int main()
 			{
 				if (response.status_code() == status_codes::OK)
 				{
-					auto test = response.extract_json();
 					return response.extract_json();
 				}
 
