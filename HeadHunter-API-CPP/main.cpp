@@ -1,12 +1,16 @@
 #include <cpprest/http_client.h>
 #include <cpprest/filestream.h>
 #include <cpprest/json.h>
+#include <functional>
 
 using namespace utility; // Common utilities like string conversions
 using namespace web; // Common features like URIs.
 using namespace web::http; // Common HTTP functionality
 using namespace web::http::client; // HTTP client features
 using namespace concurrency::streams; // Asynchronous streams
+
+
+std::function<void(std::wstring)> Log = [](std::wstring message) { std::wcout << message << std::endl; };
 
 int main()
 {
@@ -39,7 +43,7 @@ int main()
 					json::value const& v = previousTask.get();
 					auto nextPublishAt = v.at(L"next_publish_at").as_string();
 					auto dateTime = datetime::from_string(nextPublishAt, datetime::ISO_8601);
-					std::wcout << "Time to update the resume: " << dateTime.to_string() << std::endl;
+					Log(L"Time to update the resume: " + dateTime.to_string());
 				}
 				catch (http_exception const& e)
 				{
@@ -74,7 +78,7 @@ int main()
 				{
 					json::value const& v = previousTask.get();
 					auto contents = v.serialize();
-					std::wcout << "Update Response:  " << contents << std::endl;
+					Log(L"Update Response: " + contents);
 				}
 				catch (http_exception const& e)
 				{
