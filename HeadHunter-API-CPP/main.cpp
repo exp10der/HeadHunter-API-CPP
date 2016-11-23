@@ -73,7 +73,7 @@ int main()
 				try
 				{
 					json::value const& v = previousTask.get();
-					auto contents = v.as_string();
+					auto contents = v.serialize();
 					std::wcout << "Update Response:  " << contents << std::endl;
 				}
 				catch (http_exception const& e)
